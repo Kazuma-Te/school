@@ -41,7 +41,7 @@ class _State extends State<MyApp> {
                 ),
               ),
               ListTile(
-                title: Text('Los Angeles'),
+                title: Text('ホームページ'),
                 onTap: () {
                   setState(() => _city = 'Los Angeles, CA');
                   Navigator.pop(context);
