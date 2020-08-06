@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_school_app/Login.dart';
 import 'package:flutter_school_app/Message.dart';
 
+import 'book_list_page.dart';
+
 void main() => runApp(
   MaterialApp(
     debugShowCheckedModeBanner: false,
@@ -50,8 +52,12 @@ class _State extends State<MyApp> {
               ListTile(
                 title: Text('学校通信'),
                 onTap: () {
-                  setState(() => _city = 'Honolulu, HI');
-                  Navigator.pop(context);
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => BookList()),
+                  );
+//                  setState(() => _city = 'Honolulu, HI');
+//                  Navigator.pop(context);
                 },
               ),
               ListTile(
