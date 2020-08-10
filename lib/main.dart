@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_school_app/Login.dart';
 import 'package:flutter_school_app/Message.dart';
+import 'package:flutter_school_app/login_page.dart';
+import 'package:flutter_school_app/signup_page.dart';
 
 import 'book_list_page.dart';
 
 void main() => runApp(
-  MaterialApp(
-    debugShowCheckedModeBanner: false,
-    home: MyApp(),
-  ),
-);
+      MaterialApp(
+        debugShowCheckedModeBanner: false,
+        home: MyApp(),
+      ),
+    );
 
 class MyApp extends StatefulWidget {
   @override
@@ -61,15 +63,6 @@ class _State extends State<MyApp> {
                 },
               ),
               ListTile(
-                title: Text('ログイン'),
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => Login()),
-                  );
-                },
-              ),
-              ListTile(
                 title: Text('メッセージ'),
                 onTap: () {
                   Navigator.push(
@@ -80,10 +73,30 @@ class _State extends State<MyApp> {
                 },
               ),
               ListTile(
-                title: Text('ログアウト',
-                style: TextStyle(
-                  color: Colors.red,
-                ),),
+                title: Text('ログイン'),
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => LoginPage()),
+                  );
+                },
+              ),
+              ListTile(
+                title: Text('新規登録'),
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => SignUpPage()),
+                  );
+                },
+              ),
+              ListTile(
+                title: Text(
+                  'ログアウト',
+                  style: TextStyle(
+                    color: Colors.red,
+                  ),
+                ),
                 onTap: () {
                   setState(() => _city = 'Tokyo, Japan');
                   Navigator.pop(context);
@@ -110,7 +123,6 @@ class _State extends State<MyApp> {
               ),
             ],
           ),
-
         ));
   }
 }
