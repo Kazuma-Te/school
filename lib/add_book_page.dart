@@ -39,7 +39,7 @@ class AddBookPage extends StatelessWidget {
                       if (isUpdate) {
                         await updateBook(model, context);
                       } else {
-                        //  firestoreに本を追加
+                        // firestoreに本を追加
                         await addBook(model, context);
                       }
                     },
@@ -53,10 +53,7 @@ class AddBookPage extends StatelessWidget {
     );
   }
 
-  Future addBook(
-    AddBookModel model,
-    BuildContext context,
-  ) async {
+  Future addBook(AddBookModel model, BuildContext context) async {
     try {
       await model.addBookToFirebase();
       await showDialog(
@@ -96,10 +93,7 @@ class AddBookPage extends StatelessWidget {
     }
   }
 
-  Future updateBook(
-    AddBookModel model,
-    BuildContext context,
-  ) async {
+  Future updateBook(AddBookModel model, BuildContext context) async {
     try {
       await model.updateBook(book);
       await showDialog(

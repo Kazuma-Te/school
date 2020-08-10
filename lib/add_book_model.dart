@@ -9,6 +9,7 @@ class AddBookModel extends ChangeNotifier {
     if (bookTitle.isEmpty) {
       throw ('タイトルを入力してください');
     }
+
     Firestore.instance.collection('books').add(
       {
         'title': bookTitle,

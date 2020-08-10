@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_school_app/add_book_page.dart';
+import 'package:flutter_school_app/book.dart';
 import 'package:flutter_school_app/book_list_model.dart';
 import 'package:provider/provider.dart';
 
@@ -11,31 +12,56 @@ class BookListPage extends StatelessWidget {
       create: (_) => BookListModel()..fetchBooks(),
       child: Scaffold(
         appBar: AppBar(
-          title: Text('学校通信一覧'),
+          title: Text('本一覧'),
         ),
         body: Consumer<BookListModel>(
           builder: (context, model, child) {
             final books = model.books;
             final listTiles = books
-                .map((book) => ListTile(
-                      title: Text(book.title),
-                      trailing: IconButton(
-                        icon: Icon(Icons.edit),
-                        onPressed: () async {
-                          //todo 画面遷移
-                          await Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => AddBookPage(
-                                book: book,
-                              ),
-                              fullscreenDialog: true,
+                .map(
+                  (book) => ListTile(
+                    title: Text(book.title),
+                    trailing: IconButton(
+                      icon: Icon(Icons.edit),
+                      onPressed: () async {
+                        // todo: 画面遷移
+
+                        await Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => AddBookPage(
+                              book: book,
                             ),
+                            fullscreenDialog: true,
+                          ),
+                        );
+                        model.fetchBooks();
+                      },
+                    ),
+                    onLongPress: () async {
+                      // todo: 削除
+                      await showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            title: Text('${book.title}を削除しますか？'),
+                            actions: <Widget>[
+                              FlatButton(
+                                child: Text('OK'),
+                                onPressed: () async {
+                                  Navigator.of(context).pop();
+
+                                  // TODO: 削除のAPIを叩く
+                                  await deleteBook(context, model, book);
+                                },
+                              ),
+                            ],
                           );
-                          model.fetchBooks();
                         },
-                      ),
-                    ))
+                      );
+                    },
+                  ),
+                )
                 .toList();
             return ListView(
               children: listTiles,
@@ -60,6 +86,42 @@ class BookListPage extends StatelessWidget {
           );
         }),
       ),
+    );
+  }
+
+  Future deleteBook(
+    BuildContext context,
+    BookListModel model,
+    Book book,
+  ) async {
+    try {
+      await model.deleteBook(book);
+      await model.fetchBooks();
+    } catch (e) {
+      await _showDialog(context, e.toString());
+      print(e.toString());
+    }
+  }
+
+  Future _showDialog(
+    BuildContext context,
+    String title,
+  ) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(title),
+          actions: <Widget>[
+            FlatButton(
+              child: Text('OK'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
     );
   }
 }

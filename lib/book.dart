@@ -5,6 +5,7 @@ class Book {
     documentID = doc.documentID;
     title = doc['title'];
   }
-  String title;
+
   String documentID;
+  String title;
 }
